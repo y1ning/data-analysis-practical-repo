@@ -4,3 +4,7 @@ library(dplyr)
 library(lubridate)
 col_na_count <- colSums(is.na(dummy_data))
 print(col_na_count)
+
+library(stringr)
+dummy_data$start_t <- str_replace_all(dummy_data$start_t, "/[1-9]|/1[0-2]", "")
+print(dummy_data)
