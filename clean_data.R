@@ -22,3 +22,23 @@ dummy_data <- dummy_data %>%
 dummy_data$start_t <- as.character(dummy_data$start_t)
 
 print(dummy_data)
+
+replacements <- list(
+  sex = "女",
+  smoke = "不吸煙",
+  drink = "不喝酒",
+  betal_nut = "不吃檳榔",
+  vr = "無明顯異常",
+  vl = "無明顯異常",
+  mednow = "無"
+)
+
+data <- dummy_data %>%
+  mutate(across(
+    all_of(names(replacements)), 
+    ~ ifelse(. == replacements[[cur_column()]], 0, 1)
+  )) %>%
+  mutate(age = as.numeric(floor(lubridate::interval(dob, Sys.Date())/ years(1))))
+
+print(data)
+
