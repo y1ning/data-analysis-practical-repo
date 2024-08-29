@@ -38,6 +38,7 @@ data <- dummy_data %>%
     all_of(names(replacements)), 
     ~ ifelse(. == replacements[[cur_column()]], 0, 1)
   )) %>%
+  #package lubridate
   mutate(age = as.numeric(floor(lubridate::interval(dob, Sys.Date())/ years(1))))
 
 print(data)
