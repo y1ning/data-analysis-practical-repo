@@ -19,4 +19,6 @@ dummy_data <- dummy_data %>%
     TRUE ~ start_t
   ))
 
+dummy_data$start_t <- as.character(dummy_data$start_t)
+
 print(dummy_data)
