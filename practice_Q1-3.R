@@ -49,3 +49,10 @@ print(data)
 
 n_hypertension <- sum(data$BP == "hypertension")
 print(paste("number of hypertension =", n_hypertension, sep=" "))
+
+#Q5
+data$start_t <- as.Date(data$start_t, format = "%Y")
+data <- data %>%
+  mutate(start_t = as.Date(paste0(start_t, "-01-01")))
+data$consult_date <- as.Date(data$consult_date, format = "%Y"-"%m"-"%e")
+
