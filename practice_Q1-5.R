@@ -76,7 +76,8 @@ c_CVD <- data %>%
   mutate(CVD_abnormal = high_CVD_risk == "abnormal") %>%
   count(CVD_abnormal) %>%
   mutate(proportion = n / sum(n)) %>%
-  filter(CVD_abnormal == TRUE)
+  filter(CVD_abnormal == TRUE) %>%
+  select(-CVD_abnormal)
 print(c_CVD)
 
 #Q5
@@ -88,3 +89,21 @@ data$consult_date <- as.Date(data$consult_date, format = "%Y-%m-%e")
 data <- data %>%
   mutate(tenure_t = as.numeric(floor(lubridate::interval(start_t, consult_date)/ years(1))))
 print(data)
+
+#merge the table
+merged_table <- c_sex %>%
+  left_join(c_age, by = "department") %>%
+  left_join(c_CVD, by = "department") %>%
+  mutate(across(everything(), ~ replace_na(., 0))) %>%
+  rename(
+    female = '0',
+    male = '1',
+    n_CVD = n,
+    CVD_proportion = proportion
+  )
+
+print(merged_table)
+
+merged_table <- t(merged_table)
+merged_table <- as.data.frame(merged_table)
+print(merged_table)
