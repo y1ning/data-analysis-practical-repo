@@ -54,4 +54,8 @@ print(paste("number of hypertension =", n_hypertension, sep=" "))
 data$start_t <- as.Date(data$start_t, format = "%Y")
 data <- data %>%
   mutate(start_t = as.Date(paste0(format(start_t, "%Y"), "-01-01"), format = "%Y-%m-%e"))
+data$consult_date <- as.Date(data$consult_date, format = "%Y-%m-%e")
 
+data <- data %>%
+  mutate(tenure_t = as.numeric(floor(lubridate::interval(start_t, consult_date)/ years(1))))
+print(data)
