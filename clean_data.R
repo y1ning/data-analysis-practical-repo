@@ -10,26 +10,26 @@ merged_data <- merged_data %>%
   select(-department.y)
 print(merged_data)
 
-col_na_count <- colSums(is.na(dummy_data))
+col_na_count <- colSums(is.na(merged_data))
 print(col_na_count)
 library(tidyr)
-dummy_data <- drop_na(dummy_data, start_t)
+merged_data <- drop_na(merged_data, start_t)
 
 library(stringr)
-dummy_data$start_t <- as.numeric(as.character(
-  str_replace_all(dummy_data$start_t, "/[1-9]|/1[0-2]", "")
+merged_data$start_t <- as.numeric(as.character(
+  str_replace_all(merged_data$start_t, "/[1-9]|/1[0-2]", "")
   ))
 
-dummy_data <- dummy_data %>%
+merged_data <- merged_data %>%
   filter(start_t < 2024) %>%
   mutate(start_t = case_when(
     start_t < 1911 ~ start_t + 1911,
     TRUE ~ start_t
   ))
 
-dummy_data$start_t <- as.character(dummy_data$start_t)
+merged_data$start_t <- as.character(merged_data$start_t)
 
-print(dummy_data)
+print(merged_data)
 
 replacements <- list(
   sex = "女",
@@ -41,7 +41,7 @@ replacements <- list(
   mednow = "無"
 )
 
-data <- dummy_data %>%
+data <- merged_data %>%
   mutate(across(
     all_of(names(replacements)), 
     ~ ifelse(. == replacements[[cur_column()]], 0, 1)
