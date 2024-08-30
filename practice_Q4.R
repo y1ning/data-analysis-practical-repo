@@ -14,4 +14,10 @@ ecg_data <- ecg_output %>%
   ))
 print(ecg_data)
 
+#sol1
+abnormal_count <- sum(ecg_data$high_CVD_risk == "abnormal")
+total_count <- sum(ecg_data$high_CVD_risk == "abnormal" | ecg_data$high_CVD_risk == "normal")
+CVD_proportion <- abnormal_count / total_count
+print(paste("the proportion of people at high risk for CVD is", CVD_proportion, sep=" "))
 
+#sol2
