@@ -7,5 +7,11 @@ print(col_na_count)
 library(dplyr)
 ecg_data <- ecg_output %>% 
   drop_na(`ECG Report`) %>%
-  rename(ecg_report = `ECG Report`)
+  rename(ecg_report = `ECG Report`) %>%
+  mutate(high_CVD_risk = case_when(
+    ecg_report == "Normal sinus rhythm\nNormal ECG" ~ "normal",
+    TRUE ~ "abnormal"
+  ))
 print(ecg_data)
+
+
