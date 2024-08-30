@@ -1,7 +1,15 @@
 library(readr)
 dummy_data <- read_csv("~/Downloads/dummy_data_practical.csv")
+ecg_output <- read_csv("~/Downloads/ecg_output.csv")
 library(dplyr)
 library(lubridate)
+merged_data <- dummy_data %>%
+  left_join(ecg_output, by = "id")
+  
+merged_data <- merged_data %>%
+  select(-department.y)
+print(merged_data)
+
 col_na_count <- colSums(is.na(dummy_data))
 print(col_na_count)
 library(tidyr)
