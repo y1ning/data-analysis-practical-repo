@@ -7,7 +7,8 @@ merged_data <- dummy_data %>%
   left_join(ecg_output, by = "id")
   
 merged_data <- merged_data %>%
-  select(-department.y)
+  select(-department.y) %>%
+  rename(department = department.x)
 print(merged_data)
 
 col_na_count <- colSums(is.na(merged_data))
