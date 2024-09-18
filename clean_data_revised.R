@@ -116,14 +116,17 @@ replacements <- list(
   vl = "無明顯異常",
   mednow = "無"
 )
-
+##建立replacements的list##
+##使用replacements替換""為0##
 data <- merged_data %>%
   mutate(across(
     all_of(names(replacements)), 
     ~ ifelse(. == replacements[[cur_column()]], 0, 1) 
   )) %>% # this is smart. 
   ##package lubridate##
-  mutate(age = as.numeric(floor(lubridate::interval(dob, Sys.Date())/ years(1))))
+  mutate(age = as.numeric(round(interval(dob, consult_date)/ years(1))))
+  ##round為四捨五入(floor是無條件捨去,ceiling是無條件進位)##
+
 # I forgot to mention: their ages are the time they visited the health 
 # examination centre. So you need to calculate the age on the consult_date
 
